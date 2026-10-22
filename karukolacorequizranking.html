@@ -1,0 +1,399 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>কারুকলা Core - কুইজ র‍্যাংকিং</title>
+
+    <!-- Google Fonts for Calligraphy & Aesthetics -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Atma:wght@600;700&family=Dancing+Script:wght@700&family=Hind+Siliguri:wght@400;600;700&display=swap" rel="stylesheet">
+    
+    <!-- FontAwesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- Tailwind CSS Setup -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'canvas': '#fdfaf2',
+                        'terracotta': '#E84A36',
+                        'leaf': '#2D5A3F',
+                    },
+                    fontFamily: {
+                        'bangla-brush': ['"Atma"', 'cursive'],
+                        'english-cursive': ['"Dancing Script"', 'cursive'],
+                        'bangla-body': ['"Hind Siliguri"', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        body {
+            background-color: #fdfaf2;
+            background-image: url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100' height='100' filter='url(%23noise)' opacity='0.05'/%3E%3C/svg%3E");
+            font-family: 'Hind Siliguri', sans-serif;
+            overflow-x: hidden;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        /* Marquee Animation (Fast) */
+        .marquee-bg {
+            background: linear-gradient(90deg, #E84A36, #ff8c00, #E84A36);
+            background-size: 200% auto;
+            animation: gradientShift 3s linear infinite;
+        }
+        @keyframes gradientShift { 0% { background-position: 0% center; } 100% { background-position: 200% center; } }
+        
+        .marquee-content {
+            display: inline-block;
+            white-space: nowrap;
+            animation: marquee 30s linear infinite; 
+        }
+        @keyframes marquee { 0% { transform: translateX(100vw); } 100% { transform: translateX(-100%); } }
+
+        /* Floating Elements Animations */
+        .float-1 { animation: floatItem 4s ease-in-out infinite; }
+        .float-2 { animation: floatItemReverse 5s ease-in-out infinite; }
+        .float-3 { animation: bounceItem 3.5s ease-in-out infinite; }
+        .float-4 { animation: floatItem 4.5s ease-in-out infinite reverse; }
+
+        @keyframes floatItem { 0%, 100% { transform: translateY(0px) rotate(0deg); } 50% { transform: translateY(-15px) rotate(10deg); } }
+        @keyframes floatItemReverse { 0%, 100% { transform: translateY(0px) rotate(0deg); } 50% { transform: translateY(-20px) rotate(-15deg); } }
+        @keyframes bounceItem { 0%, 100% { transform: translateY(0px) scale(1); } 50% { transform: translateY(-10px) scale(1.1); } }
+
+        /* Glassmorphism Cards */
+        .glass-box {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.5);
+            box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.07);
+        }
+
+        /* Row hover animation */
+        .rank-row {
+            transition: all 0.3s ease;
+        }
+        .rank-row:hover {
+            transform: scale(1.02) translateX(5px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+        }
+
+        /* Medal Custom Gradients */
+        .badge-gold { background: linear-gradient(135deg, #FFD700, #FDB931); color: #fff; text-shadow: 1px 1px 2px rgba(0,0,0,0.2); box-shadow: 0 4px 15px rgba(255, 215, 0, 0.5); border: 2px solid #FFDF00;}
+        .badge-diamond { background: linear-gradient(135deg, #00BCD4, #80DEEA); color: #fff; text-shadow: 1px 1px 2px rgba(0,0,0,0.2); box-shadow: 0 4px 15px rgba(0, 188, 212, 0.5); border: 2px solid #B2EBF2;}
+        .badge-pink-diamond { background: linear-gradient(135deg, #FF4081, #F48FB1); color: #fff; text-shadow: 1px 1px 2px rgba(0,0,0,0.2); box-shadow: 0 4px 15px rgba(255, 64, 129, 0.5); border: 2px solid #F8BBD0;}
+        .badge-silver { background: linear-gradient(135deg, #9E9E9E, #E0E0E0); color: #fff; text-shadow: 1px 1px 2px rgba(0,0,0,0.2); box-shadow: 0 4px 15px rgba(158, 158, 158, 0.5); border: 2px solid #F5F5F5;}
+        .badge-bronze { background: linear-gradient(135deg, #8D6E63, #D7CCC8); color: #fff; text-shadow: 1px 1px 2px rgba(0,0,0,0.2); box-shadow: 0 4px 15px rgba(141, 110, 99, 0.5); border: 2px solid #EFEBE9;}
+        .badge-normal { background: #f3f4f6; color: #4b5563; border: 2px solid #e5e7eb; }
+
+        /* PC / Desktop (Default Layout) */
+        .container {
+            max-width: 800px;
+            width: 100%;
+            margin: 0 auto;
+            padding: 30px 20px;
+        }
+
+        .rank-card {
+            background: #ffffff;
+            border-radius: 12px;
+            padding: 16px 22px;
+            margin-bottom: 12px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+            border-left: 6px solid #bdc3c7;
+            transition: 0.2s;
+        }
+
+        /* Top 5 Custom Borders */
+        .rank-1 { border-left-color: #f1c40f; background: #fffdf5; } /* Gold */
+        .rank-2 { border-left-color: #3498db; } /* Diamond */
+        .rank-3 { border-left-color: #e91e63; } /* Pink */
+        .rank-4 { border-left-color: #95a5a6; } /* Silver */
+        .rank-5 { border-left-color: #d35400; } /* Bronze */
+
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .rank-badge {
+            font-size: 1.1rem;
+            font-weight: 700;
+        }
+
+        .user-name {
+            font-size: 1.15rem;
+            font-weight: 700;
+            color: #2c3e50;
+        }
+
+        .score-info {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .user-score {
+            font-size: 1.15rem;
+            font-weight: 800;
+            color: #27ae60;
+        }
+
+        .user-time {
+            font-size: 0.95rem;
+            color: #7f8c8d;
+            font-weight: 600;
+        }
+
+        /* ================= MOBILE RESPONSIVE (Phone-er jonno) ================= */
+        @media (max-width: 768px) {
+            .container {
+                padding: 15px 12px;
+            }
+
+            .rank-card {
+                padding: 12px 14px;
+                margin-bottom: 10px;
+            }
+
+            .user-name {
+                font-size: 0.98rem;
+                max-width: 140px; /* Boro name hole screen venge jabe na */
+                white-space: nowrap;
+                overflow: hidden;
+                text-overflow: ellipsis;
+            }
+
+            .rank-badge {
+                font-size: 0.95rem;
+            }
+
+            .score-info {
+                gap: 8px;
+            }
+
+            .user-score {
+                font-size: 0.98rem;
+            }
+
+            .user-time {
+                font-size: 0.82rem;
+            }
+
+            /* Wireframe footer mobile view */
+            .wireframe-footer {
+                flex-direction: column;
+                gap: 20px;
+                text-align: center;
+            }
+        }
+    </style>
+</head>
+<body class="text-gray-800">
+
+    <!-- Top Marquee -->
+    <div class="marquee-bg w-full overflow-hidden py-2 text-white font-bold text-lg shadow-md fixed top-0 z-50">
+        <div class="marquee-content">
+            🚨 কুইজ খেলার শেষ সময়: ৩০শে অক্টোবর রাত ১১:৫৯ মিনিট! 🚨 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+            🚨 কুইজ খেলার শেষ সময়: ৩০শে অক্টোবর রাত ১১:৫৯ মিনিট! 🚨 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            🚨 কুইজ খেলার শেষ সময়: ৩০শে অক্টোবর রাত ১১:৫৯ মিনিট! 🚨
+        </div>
+    </div>
+
+    <!-- Main Container -->
+    <div class="flex-grow flex flex-col items-center pt-20 pb-10 px-4 relative z-10 w-full max-w-4xl mx-auto">
+        
+        <!-- Floating Elements -->
+        <div class="fixed top-24 left-4 md:left-10 text-5xl float-1 drop-shadow-md z-0 opacity-60">🌷</div>
+        <div class="fixed top-32 right-4 md:right-10 text-5xl float-2 drop-shadow-md z-0 opacity-60">🏺</div>
+        <div class="fixed bottom-40 left-0 md:left-10 text-5xl float-3 drop-shadow-md z-0 opacity-60" style="transform: rotate(-30deg);">✂️</div>
+        <div class="fixed bottom-24 right-4 md:right-16 text-6xl float-4 drop-shadow-md z-0 opacity-60">🧵</div>
+
+        <!-- Logo / Header Area -->
+        <div class="text-center mt-8 mb-6 z-10">
+            <h1 class="font-bangla-brush text-terracotta text-6xl md:text-7xl drop-shadow-sm leading-none">কারুকলা</h1>
+            <h2 class="font-english-cursive text-leaf text-5xl md:text-6xl -mt-4 drop-shadow-sm transform -rotate-2">Core</h2>
+            <h3 class="font-bangla-body text-2xl font-bold text-gray-800 mt-4 bg-white/60 inline-block px-6 py-2 rounded-full border border-gray-200 shadow-sm">
+                <i class="fa-solid fa-trophy text-yellow-500 mr-2"></i> লিডারবোর্ড
+            </h3>
+        </div>
+
+        <!-- Ranking Container -->
+        <div class="glass-box rounded-3xl p-4 md:p-8 w-full z-10">
+            
+            <div class="flex justify-between items-center mb-6 pb-2 border-b-2 border-gray-200 px-2">
+                <span class="text-gray-500 font-bold uppercase text-sm md:text-base tracking-wider">Rank & Name</span>
+                <span class="text-gray-500 font-bold uppercase text-sm md:text-base tracking-wider text-right">Score & Time</span>
+            </div>
+
+            <!-- Leaderboard List -->
+            <div id="leaderboard-list" class="space-y-4">
+                <!-- Javascript will populate this -->
+            </div>
+
+            <!-- Back Button -->
+            <div class="mt-10 flex flex-col sm:flex-row justify-center items-center gap-4">
+                <!-- কুইজ পেজে ফিরে যান বাটন -->
+                <button onclick="window.location.href='karukolacorequizfest.html'" class="w-full sm:w-auto bg-gray-800 hover:bg-gray-900 text-white font-bold py-3 px-8 rounded-xl shadow-lg transition transform hover:-translate-y-1 flex items-center justify-center gap-2">
+                    <i class="fa-solid fa-arrow-left"></i> কুইজ পেজে ফিরে যান
+                </button>
+
+                <!-- হোম পেজে ফিরে যান বাটন -->
+                <button onclick="window.location.href='index.html'" class="w-full sm:w-auto bg-amber-600 hover:bg-amber-700 text-white font-bold py-3 px-8 rounded-xl shadow-lg transition transform hover:-translate-y-1 flex items-center justify-center gap-2">
+                    <i class="fa-solid fa-house"></i> হোম পেজে ফিরে যান
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ======================= FOOTER ======================= -->
+    <footer class="bg-white/80 backdrop-blur-md border-t border-gray-200 mt-auto shadow-inner relative z-20 w-full py-6">
+        <div class="max-w-5xl mx-auto px-6 flex flex-col md:flex-row justify-between items-center md:items-end gap-6 relative">
+            
+            <!-- Left: Visit our page -->
+            <div class="w-full md:w-1/3 text-center md:text-left">
+                <a href="https://karukolacore.netlify.app/" class="inline-block border-2 border-gray-800 text-gray-800 font-bold py-2 px-6 rounded-full hover:bg-gray-800 hover:text-white transition duration-300">
+                    Visit Our Website
+                </a>
+            </div>
+
+            <!-- Center: Powered By -->
+            <div class="w-full md:w-1/3 text-center order-last md:order-none">
+                <p class="text-sm font-semibold text-gray-500">
+                    Powered by 
+                    <span class="font-bold text-transparent bg-clip-text bg-gradient-to-r from-terracotta to-orange-500 text-lg mx-1">
+                        Ahnaf
+                    </span> 
+                    <span class="text-black font-bold text-xs">
+                        (LOD, কারুকলা Core)
+                    </span>
+                </p>
+            </div>
+
+            <!-- Right: Contact Box -->
+            <div class="w-full md:w-1/3 flex justify-center md:justify-end">
+                <div class="border-2 border-dashed border-terracotta rounded-xl p-3 flex items-center gap-4 bg-orange-50/50">
+                    <span class="font-bold text-gray-700 uppercase text-sm"><i class="fa-solid fa-address-book"></i> contact</span>
+                    <a href="https://www.facebook.com/profile.php?id=61595356326973" class="bg-blue-600 text-white px-3 py-1 rounded hover:bg-blue-700 transition font-bold text-sm">Fb</a>
+                    <a href="https://www.instagram.com/karukolacore?xtok=MWlrOGN1Ym50anFqMw==" class="bg-pink-600 text-white px-3 py-1 rounded hover:bg-pink-700 transition font-bold text-sm">Insta</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Logic Script -->
+    <!-- Firebase CDN -->
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
+
+    <script>
+        const firebaseConfig = {
+            apiKey: "AIzaSyCSS_vXmOEiyLmuddp1t4TY16Kd66gUleE",
+            authDomain: "karukolacore.firebaseapp.com",
+            projectId: "karukolacore",
+            storageBucket: "karukolacore.firebasestorage.app",
+            messagingSenderId: "283565312879",
+            appId: "1:283565312879:web:2ea367b7522382e119b69a",
+            measurementId: "G-FZETWQE3D4"
+        };
+
+        if (!firebase.apps.length) {
+            firebase.initializeApp(firebaseConfig);
+        }
+        const db = firebase.firestore();
+
+        // এখানে HTML-এর সাথে মিলিয়ে "leaderboard-list" করে দেওয়া হয়েছে
+        const rankingListContainer = document.getElementById("leaderboard-list");
+
+        // Live Data Listener
+        db.collection("scores")
+          .orderBy("score", "desc")
+          .onSnapshot((snapshot) => {
+              let rankingData = [];
+              snapshot.forEach((doc) => {
+                  rankingData.push(doc.data());
+              });
+
+              // পয়েন্ট সমান হলে যে কম সময়ে উত্তর দিয়েছে সে এগিয়ে থাকবে
+              rankingData.sort((a, b) => {
+                  if (b.score !== a.score) {
+                      return b.score - a.score;
+                  }
+                  return (a.timeTaken || 0) - (b.timeTaken || 0);
+              });
+
+              renderLeaderboard(rankingData);
+          }, (error) => {
+              console.error("Ranking fetch error:", error);
+              if (rankingListContainer) {
+                  rankingListContainer.innerHTML = `<div style="text-align:center; padding:30px; font-weight:bold; color:#e74c3c;">ডাটা লোড করতে সমস্যা হচ্ছে!</div>`;
+              }
+          });
+
+        function renderLeaderboard(data) {
+            if (!rankingListContainer) return;
+            rankingListContainer.innerHTML = "";
+
+            if (data.length === 0) {
+                rankingListContainer.innerHTML = `<div style="text-align:center; padding:30px; font-weight:bold; color:#7f8c8d;">এখনো কেউ কুইজ দেয়নি!</div>`;
+                return;
+            }
+
+            data.forEach((item, index) => {
+                let rank = index + 1;
+                let cardClass = "rank-card";
+                let medalBadge = `<span class="rank-badge">${rank}</span>`;
+
+                if (rank === 1) {
+                    cardClass += " rank-1";
+                    medalBadge = `<span class="rank-badge">🥇 1st</span>`;
+                } else if (rank === 2) {
+                    cardClass += " rank-2";
+                    medalBadge = `<span class="rank-badge">💎 2nd</span>`;
+                } else if (rank === 3) {
+                    cardClass += " rank-3";
+                    medalBadge = `<span class="rank-badge">💖 3rd</span>`;
+                } else if (rank === 4) {
+                    cardClass += " rank-4";
+                    medalBadge = `<span class="rank-badge">🥈 4th</span>`;
+                } else if (rank === 5) {
+                    cardClass += " rank-5";
+                    medalBadge = `<span class="rank-badge">🥉 5th</span>`;
+                }
+
+                let m = Math.floor((item.timeTaken || 0) / 60);
+                let s = (item.timeTaken || 0) % 60;
+                let timeStr = `${m > 0 ? m + 'm ' : ''}${s}s`;
+
+                const row = `
+                    <div class="${cardClass}">
+                        <div class="user-info">
+                            ${medalBadge}
+                            <span class="user-name">${item.fullName || item.name || 'Anonymous'}</span>
+                        </div>
+                        <div class="score-info">
+                            <span class="user-score">${item.score ?? 0} / 20</span>
+                            <span class="user-time">⏱️ ${timeStr}</span>
+                        </div>
+                    </div>
+                `;
+                rankingListContainer.innerHTML += row;
+            });
+        }
+    </script>
+</body>
+</html>

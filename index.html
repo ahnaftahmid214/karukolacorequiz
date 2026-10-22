@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <!-- Social Media Preview Tags (Facebook, Messenger, WhatsApp) -->
+<meta property="og:title" content="কারুকলা Core - Mega GK Quiz Festival" />
+<meta property="og:description" content="কুইজ খেলেই জিতে নাও আকর্ষণীয় মূল্য ছাড়!" />
+<meta property="og:image" content="https://karukolacorequiz.netlify.app/img1.png" />
+<meta property="og:url" content="https://karukolacorequiz.netlify.app/" />
+<meta property="og:type" content="website" />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>কারুকলা Core - CPSCS হস্তশিল্প মেলা ২০২৬</title>
+
+    <!-- Google Fonts for Calligraphy & Aesthetics -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <!-- Galada for Bengali Calligraphy, Great Vibes for cursive English, Hind Siliguri for readable Bengali -->
+    <link href="https://fonts.googleapis.com/css2?family=Galada&family=Great+Vibes&family=Hind+Siliguri:wght@400;600;700&display=swap" rel="stylesheet">
+    
+    <!-- FontAwesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- Tailwind CSS Setup -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'canvas': '#fdfaf2', // Soft cream off-white
+                        'terracotta': '#E84A36', // Clay/red vibe
+                        'leaf': '#2D5A3F', // Dark green vibe
+                        'gold': '#d4af37',
+                    },
+                    fontFamily: {
+                        'bangla-brush': ['"Galada"', 'cursive'],
+                        'english-cursive': ['"Great Vibes"', 'cursive'],
+                        'bangla-body': ['"Hind Siliguri"', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+
+    <!-- Custom CSS for Animations & UI Elements -->
+    <style>
+        body {
+            background-color: #fdfaf2;
+            /* Subtle paper/canvas texture */
+            background-image: url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100' height='100' filter='url(%23noise)' opacity='0.05'/%3E%3C/svg%3E");
+            font-family: 'Hind Siliguri', sans-serif;
+            overflow-x: hidden;
+        }
+
+        /* Marquee Animation */
+        .marquee-bg {
+            background: linear-gradient(90deg, #E84A36, #ff8c00, #E84A36);
+            background-size: 200% auto;
+            animation: gradientShift 3s linear infinite;
+        }
+        @keyframes gradientShift {
+            0% { background-position: 0% center; }
+            100% { background-position: 200% center; }
+        }
+        .marquee-content {
+            display: inline-block;
+            white-space: nowrap;
+            animation: marquee 30s linear infinite;
+        }
+        @keyframes marquee {
+            0% { transform: translateX(100vw); }
+            100% { transform: translateX(-100%); }
+        }
+
+        /* Floating Elements Animations */
+        .float-1 { animation: floatItem 4s ease-in-out infinite; }
+        .float-2 { animation: floatItemReverse 5s ease-in-out infinite; }
+        .float-3 { animation: bounceItem 3.5s ease-in-out infinite; }
+        .float-4 { animation: floatItem 4.5s ease-in-out infinite reverse; }
+
+        @keyframes floatItem {
+            0%, 100% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-15px) rotate(10deg); }
+        }
+        @keyframes floatItemReverse {
+            0%, 100% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-20px) rotate(-15deg); }
+        }
+        @keyframes bounceItem {
+            0%, 100% { transform: translateY(0px) scale(1); }
+            50% { transform: translateY(-10px) scale(1.1); }
+        }
+
+        /* 3D Button Styles */
+        .btn-3d {
+            transition: all 0.15s ease;
+            position: relative;
+            transform-style: preserve-3d;
+        }
+        .btn-3d-red {
+            background-color: #E84A36;
+            box-shadow: 0 8px 0 #b32d1e, 0 15px 20px rgba(0,0,0,0.2);
+        }
+        .btn-3d-red:active {
+            transform: translateY(8px);
+            box-shadow: 0 0px 0 #b32d1e, 0 5px 10px rgba(0,0,0,0.2);
+        }
+        .btn-3d-green {
+            background-color: #2D5A3F;
+            box-shadow: 0 8px 0 #1b3826, 0 15px 20px rgba(0,0,0,0.2);
+        }
+        .btn-3d-green:active {
+            transform: translateY(8px);
+            box-shadow: 0 0px 0 #1b3826, 0 5px 10px rgba(0,0,0,0.2);
+        }
+
+        /* Engaging Text Animation */
+        .text-pop {
+            background: linear-gradient(to right, #E84A36, #8e24aa, #E84A36);
+            background-size: 200% auto;
+            color: transparent;
+            -webkit-background-clip: text;
+            background-clip: text;
+            animation: shine 3s linear infinite;
+        }
+        @keyframes shine {
+            to { background-position: 200% center; }
+        }
+
+        /* Modal Animation */
+        .modal-enter {
+            animation: popIn 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+        }
+        @keyframes popIn {
+            0% { transform: scale(0.8); opacity: 0; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+    </style>
+</head>
+<body class="flex flex-col min-h-screen text-gray-800">
+
+    <!-- Top Marquee -->
+    <div class="marquee-bg w-full overflow-hidden py-2.5 text-white font-bold text-lg shadow-md fixed top-0 z-50">
+        <div class="marquee-content">
+            🚨 কুইজে অংশগ্রহণের শেষ সময়: ৩০শে অক্টোবর রাত ১১:৫৯ 🚨 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+            🚨 কুইজে অংশগ্রহণের শেষ সময়: ৩০শে অক্টোবর রাত ১১:৫৯ 🚨 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            🚨 কুইজে অংশগ্রহণের শেষ সময়: ৩০শে অক্টোবর রাত ১১:৫৯ 🚨
+        </div>
+    </div>
+
+    <!-- Main Content Area -->
+    <main class="flex-grow flex flex-col items-center justify-center pt-24 pb-20 px-4 relative z-10">
+        
+        <!-- Animated Elements & Title Container -->
+        <div class="relative w-full max-w-lg mx-auto text-center mt-10 mb-8">
+            
+            <!-- Floating Elements (Emojis / Shapes representing handicraft) -->
+            <div class="absolute -top-6 left-4 md:left-10 text-4xl float-1 drop-shadow-md cursor-default">🌷</div>
+            <div class="absolute top-2 right-4 md:right-8 text-4xl float-2 drop-shadow-md cursor-default">🏺</div>
+            <div class="absolute bottom-8 -left-2 md:-left-6 text-4xl float-3 drop-shadow-md cursor-default" style="transform: rotate(-30deg);">✂️</div>
+            <div class="absolute -bottom-4 right-8 md:right-16 text-5xl float-4 drop-shadow-md cursor-default">🧵</div>
+            <div class="absolute top-1/2 left-1/4 text-2xl float-2 drop-shadow-md opacity-70">✨</div>
+            <div class="absolute bottom-1/4 right-1/4 text-2xl float-1 drop-shadow-md opacity-70">✨</div>
+
+            <!-- Title -->
+            <div class="relative z-10 py-6">
+                <h1 class="font-bangla-brush text-terracotta text-7xl md:text-8xl drop-shadow-[2px_4px_0px_rgba(0,0,0,0.1)] leading-none">
+                    কারুকলা
+                </h1>
+                <h2 class="font-english-cursive text-leaf text-6xl md:text-7xl -mt-4 md:-mt-6 drop-shadow-[2px_2px_0px_rgba(0,0,0,0.1)] transform -rotate-2">
+                    Core
+                </h2>
+                <p class="font-bangla-body text-gray-600 font-bold tracking-wider mt-4 text-sm md:text-base uppercase">
+                    CPSCS হস্তশিল্প মেলা • ২০২৬
+                </p>
+            </div>
+        </div>
+
+        <!-- Subtitle & Engaging Hook -->
+        <div class="text-center max-w-2xl mx-auto mb-12 z-10">
+            <h3 class="text-3xl md:text-4xl font-extrabold mb-4 text-gray-800 drop-shadow-sm font-bangla-body uppercase tracking-wide">
+                Mega GK Quiz Fest
+            </h3>
+            
+            <div class="bg-white/60 backdrop-blur-md rounded-2xl p-5 md:p-6 shadow-[0_8px_30px_rgb(0,0,0,0.05)] border border-orange-100/50 transform transition hover:scale-105 duration-300">
+                <p class="text-xl md:text-2xl font-bold text-pop font-bangla-body leading-relaxed">
+                    আজই র‍্যাংকিংয়ে শীর্ষ ৫ এ থেকে<br>জিতে নাও আকর্ষণীয় মূল্য ছাড়!🎁
+                </p>
+            </div>
+        </div>
+
+        <!-- Prize Announcement Banner -->
+<div class="max-w-md mx-auto mb-6 px-4">
+    <div class="bg-gradient-to-r from-amber-500/10 via-orange-500/10 to-amber-500/10 border-2 border-dashed border-amber-500/50 rounded-2xl p-4 shadow-sm backdrop-blur-sm text-center relative">
+        
+        <!-- Main Title -->
+        <h3 class="font-bold text-amber-700 text-base md:text-lg mb-2 flex items-center justify-center gap-2">
+            <span>🎁</span> শীর্ষ ৫ জনের জন্য থাকছে আকর্ষণীয় মূল্য ছাড়! <span>🏆</span>
+        </h3>
+
+        <!-- Discount List -->
+        <div class="space-y-1 text-xs md:text-sm font-semibold text-gray-700">
+            <p class="flex items-center justify-center gap-1">
+                <span class="text-amber-600 font-bold">1st:</span> 70% Discount <span class="text-gray-500 font-normal">(যেকোনো ১টি পণ্যে)</span>
+            </p>
+            <p class="flex items-center justify-center gap-1">
+                <span class="text-orange-600 font-bold">2nd:</span> 60% Discount <span class="text-gray-500 font-normal">(যেকোনো ১টি পণ্যে)</span>
+            </p>
+            <p class="flex items-center justify-center gap-1">
+                <span class="text-amber-700 font-bold">3rd:</span> 50% Discount <span class="text-gray-500 font-normal">(যেকোনো ১টি পণ্যে)</span>
+            </p>
+            <p class="flex items-center justify-center gap-1">
+                <span class="text-emerald-600 font-bold">4th:</span> 30% Discount <span class="text-gray-500 font-normal">(যেকোনো ১টি পণ্যে)</span>
+            </p>
+            <p class="flex items-center justify-center gap-1">
+                <span class="text-blue-600 font-bold">5th:</span> 20% Discount <span class="text-gray-500 font-normal">(যেকোনো ১টি পণ্যে)</span>
+            </p>
+        </div>
+
+        <!-- Terms and Conditions Link (Bottom Right) -->
+        <div class="mt-3 text-right">
+            <a href="kcdiscountcondition.html" class="text-[11px] text-gray-500 hover:text-amber-600 underline decoration-dotted transition font-medium">
+                শর্ত প্রযোজ্য*
+            </a>
+        </div>
+
+    </div>
+</div>
+
+        <!-- 3D Buttons -->
+        <div class="flex flex-col sm:flex-row gap-6 md:gap-8 justify-center w-full max-w-md z-10 mt-4">
+            <button onclick="window.location.href='karukolacorequizfest.html';" class="btn-3d btn-3d-red flex-1 text-white text-xl font-bold py-4 px-6 rounded-2xl flex items-center justify-center gap-3 font-bangla-body border border-red-400/50">
+                <i class="fa-solid fa-gamepad text-2xl"></i> কুইজ খেলো
+            </button>
+            
+            <button onclick="window.location.href='karukolacorequizranking.html';" class="btn-3d btn-3d-green flex-1 text-white text-xl font-bold py-4 px-6 rounded-2xl flex items-center justify-center gap-3 font-bangla-body border border-green-400/50">
+                <i class="fa-solid fa-trophy text-2xl"></i> র‍্যাংকিং দেখো
+            </button>
+        </div>
+    </main>
+
+    <!-- Bottom Footer Bar -->
+    <footer class="bg-white/80 backdrop-blur-lg border-t border-gray-200 mt-auto shadow-[0_-10px_30px_rgba(0,0,0,0.05)] relative z-20">
+        <div class="max-w-6xl mx-auto px-6 py-5">
+            <!-- Top half of footer: Links and Socials -->
+            <div class="flex flex-col sm:flex-row justify-between items-center gap-4 mb-4">
+                <!-- Left -->
+                <div>
+                    <a href="https://karukolacore.netlify.app/" class="inline-flex items-center gap-2 px-6 py-2.5 rounded-full bg-orange-50 text-terracotta font-bold hover:bg-terracotta hover:text-white transition-all duration-300 shadow-sm border border-orange-200">
+                        <i class="fa-solid fa-link"></i> Visit Our Website
+                    </a>
+                </div>
+
+                <!-- Right -->
+                <div class="flex items-center gap-4 bg-gray-50 px-4 py-2 rounded-full border border-gray-100">
+                    <span class="font-bold text-gray-600 font-bangla-body">Contact:</span>
+                    <a href="https://www.facebook.com/profile.php?id=61595356326973" class="text-blue-600 hover:text-blue-800 hover:scale-110 transition-transform text-2xl drop-shadow-sm">
+                        <i class="fa-brands fa-facebook"></i>
+                    </a>
+                    <a href="https://www.instagram.com/karukolacore?xtok=MWlrOGN1Ym50anFqMw==" class="text-pink-600 hover:text-pink-800 hover:scale-110 transition-transform text-2xl drop-shadow-sm">
+                        <i class="fa-brands fa-instagram"></i>
+                    </a>
+                </div>
+            </div>
+
+       <!-- Powered By Footer -->
+<div class="w-full text-center py-2 mt-3">
+    <p class="text-sm font-semibold text-gray-600">
+        Powered by 
+        <span class="font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-amber-700 to-orange-500 text-lg mx-1">
+            Ahnaf
+        </span> 
+        <span class="text-gray-900 font-bold text-xs">
+            (LOD, কারুকলা Core)
+        </span>
+    </p>
+</div>
+            <!-- Visitor Counter Badge (Instant & No Loading Bug) -->
+<div class="flex items-center gap-2.5 bg-white/70 px-4 py-2 rounded-xl border border-gray-200 shadow-xs">
+    <i class="fa-solid fa-users text-terracotta text-base"></i>
+    <span class="text-sm font-bold text-gray-700"; style="font-size: 14px;">Total Visitors:</span>
+    <span id="visitor-count" class="text-xl font-extrabold text-terracotta"; style="font-size: 16px;">Loading...</span>
+</div>
+        </div>
+    </footer>
+
+    <!-- Custom Modal (Message Box replacement for alert) -->
+    <div id="customModal" class="hidden fixed inset-0 z-[100] flex items-center justify-center bg-black/40 backdrop-blur-sm p-4">
+        <div class="bg-white rounded-3xl p-8 max-w-sm w-full shadow-2xl text-center border-t-4 border-terracotta relative">
+            <button onclick="closeCustomMessage()" class="absolute top-4 right-4 text-gray-400 hover:text-red-500 transition-colors text-xl">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+            <div class="w-16 h-16 bg-orange-100 text-terracotta rounded-full flex items-center justify-center text-3xl mx-auto mb-4">
+                <i class="fa-solid fa-paper-plane"></i>
+            </div>
+            <h3 id="modalTitle" class="text-2xl font-bold font-bangla-body mb-2 text-gray-800">Title</h3>
+            <p id="modalDesc" class="text-gray-600 font-bangla-body text-lg mb-6">Description goes here.</p>
+            <button onclick="closeCustomMessage()" class="w-full bg-gray-100 hover:bg-gray-200 text-gray-800 font-bold py-3 px-4 rounded-xl transition-colors font-bangla-body">
+                ঠিক আছে
+            </button>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script>
+        // Modal Logic
+        const modal = document.getElementById('customModal');
+        const modalTitle = document.getElementById('modalTitle');
+        const modalDesc = document.getElementById('modalDesc');
+        const modalInner = modal.querySelector('div');
+
+        function showCustomMessage(title, description) {
+            modalTitle.innerText = title;
+            modalDesc.innerText = description;
+            modal.classList.remove('hidden');
+            modalInner.classList.remove('modal-enter');
+            // Trigger reflow to restart animation
+            void modalInner.offsetWidth; 
+            modalInner.classList.add('modal-enter');
+        }
+
+        function closeCustomMessage() {
+            modal.classList.add('hidden');
+        }
+
+        // Close modal when clicking outside
+        modal.addEventListener('click', function(e) {
+            if (e.target === modal) {
+                closeCustomMessage();
+            }
+        });
+    </script>
+    <!-- Firebase SDKs -->
+<script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
+
+<script>
+    // Firebase Configuration
+    const firebaseConfig = {
+        apiKey: "AIzaSyCSS_vXmOEiyLmuddp1t4TY16Kd66gUleE",
+        authDomain: "karukolacore.firebaseapp.com",
+        projectId: "karukolacore",
+        storageBucket: "karukolacore.firebasestorage.app",
+        messagingSenderId: "283565312879",
+        appId: "1:283565312879:web:2ea367b7522382e119b69a",
+        measurementId: "G-FZETWQE3D4"
+    };
+
+    // Initialize Firebase
+    if (!firebase.apps.length) {
+        firebase.initializeApp(firebaseConfig);
+    }
+    const db = firebase.firestore();
+
+    // Global Visitor Counter Logic
+    async function updateGlobalVisitorCount() {
+        const counterRef = db.collection('settings').doc('visitor_counter');
+        
+        try {
+            await db.runTransaction(async (transaction) => {
+                const doc = await transaction.get(counterRef);
+                let newCount = 1;
+                
+                if (doc.exists) {
+                    newCount = doc.data().count + 1;
+                }
+                
+                transaction.set(counterRef, { count: newCount });
+                return newCount;
+            }).then((finalCount) => {
+                document.getElementById('visitor-count').innerText = finalCount;
+            });
+        } catch (error) {
+            console.error("Visitor count error: ", error);
+            document.getElementById('visitor-count').innerText = "1";
+        }
+    }
+
+    // Call function on page load
+    updateGlobalVisitorCount();
+</script>
+</body>
+</html>

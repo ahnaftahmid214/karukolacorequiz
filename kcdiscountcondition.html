@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>কারুকলা Core - ডিসকাউন্ট শর্তাবলী</title>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Atma:wght@600;700&family=Dancing+Script:wght@700&family=Hind+Siliguri:wght@400;600;700&display=swap" rel="stylesheet">
+    
+    <!-- FontAwesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- Tailwind CSS Setup -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'canvas': '#fdfaf2',
+                        'terracotta': '#E84A36',
+                        'leaf': '#2D5A3F',
+                    },
+                    fontFamily: {
+                        'bangla-brush': ['"Atma"', 'cursive'],
+                        'english-cursive': ['"Dancing Script"', 'cursive'],
+                        'bangla-body': ['"Hind Siliguri"', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        body {
+            background-color: #fdfaf2;
+            background-image: url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100' height='100' filter='url(%23noise)' opacity='0.05'/%3E%3C/svg%3E");
+            font-family: 'Hind Siliguri', sans-serif;
+            overflow-x: hidden;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        /* Marquee Animation */
+        .marquee-bg {
+            background: linear-gradient(90deg, #E84A36, #ff8c00, #E84A36);
+            background-size: 200% auto;
+            animation: gradientShift 3s linear infinite;
+        }
+        @keyframes gradientShift { 0% { background-position: 0% center; } 100% { background-position: 200% center; } }
+        
+        .marquee-content {
+            display: inline-block;
+            white-space: nowrap;
+            animation: marquee 30s linear infinite; 
+        }
+        @keyframes marquee { 0% { transform: translateX(100vw); } 100% { transform: translateX(-100%); } }
+
+        /* Glassmorphism Box */
+        .glass-box {
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.6);
+            box-shadow: 0 10px 35px 0 rgba(31, 38, 135, 0.08);
+        }
+    </style>
+</head>
+<body class="text-gray-800">
+
+    <!-- Top Marquee -->
+    <div class="marquee-bg w-full overflow-hidden py-2 text-white font-bold text-lg shadow-md fixed top-0 z-50">
+        <div class="marquee-content">
+            🚨 কুইজ খেলার শেষ সময়: ৩০শে অক্টোবর রাত ১১:৫৯ মিনিট! 🚨 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+            🚨 কুইজ খেলার শেষ সময়: ৩০শে অক্টোবর রাত ১১:৫৯ মিনিট! 🚨 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            🚨 কুইজ খেলার শেষ সময়: ৩০শে অক্টোবর রাত ১১:৫৯ মিনিট! 🚨
+        </div>
+    </div>
+
+    <!-- Main Container -->
+    <div class="flex-grow flex flex-col items-center pt-24 pb-12 px-4 relative z-10 w-full max-w-3xl mx-auto">
+        
+        <!-- Header -->
+        <div class="text-center mt-4 mb-6 z-10">
+            <h1 class="font-bangla-brush text-terracotta text-5xl md:text-6xl drop-shadow-sm leading-none">কারুকলা</h1>
+            <h2 class="font-english-cursive text-leaf text-4xl md:text-5xl -mt-3 drop-shadow-sm transform -rotate-2">Core</h2>
+            <h3 class="font-bangla-body text-xl md:text-2xl font-bold text-gray-800 mt-4 bg-white/70 inline-block px-6 py-2 rounded-full border border-gray-200 shadow-sm">
+                <i class="fa-solid fa-file-contract text-amber-600 mr-2"></i> ডিসকাউন্ট প্রাপ্তির শর্তাবলী
+            </h3>
+        </div>
+
+        <!-- Condition Content Box -->
+        <div class="glass-box rounded-3xl p-6 md:p-10 w-full z-10 space-y-6">
+            
+            <div class="border-l-4 border-amber-500 bg-amber-50/60 p-4 rounded-r-xl">
+                <p class="text-sm md:text-base text-amber-900 font-semibold leading-relaxed">
+                    কারুকলা Core মেগা জিকে কুইজ ফেস্টিভ্যালে অংশগ্রহণকারী শীর্ষ ৫ (পাঁচ) বিজয়ীদের জন্য বিশেষ ডিসকাউন্ট এর ক্ষেত্রে নিচের শর্তগুলো বাধ্যতামূলকভাবে প্রযোজ্য:
+                </p>
+            </div>
+
+            <!-- Rules List -->
+            <div class="space-y-4 text-gray-700 font-medium text-sm md:text-base">
+                
+                <div class="flex items-start gap-3 bg-white/70 p-4 rounded-2xl border border-gray-100 shadow-xs">
+                    <span class="bg-amber-600 text-white w-7 h-7 rounded-full flex items-center justify-center shrink-0 font-bold text-xs mt-0.5">১</span>
+                    <p>
+                        <strong class="text-gray-900">সময়সীমা:</strong> ৩১শে অক্টোবরের মধ্যে লিডারবোর্ডের শীর্ষ ৫-এ থাকা বিজয়ীদের অবশ্যই সরাসরি আমাদের স্টলে এসে বা ০১৮৫১২৬২৮২০ অথবা ০১৭২৭৮২৭২৭২ নাম্বারে যোগাযোগ করতে হবে। নির্ধারিত সময়ের মধ্যে যোগাযোগ না করলে অফারটি বাতিল বলে গণ্য হবে।
+                    </p>
+                </div>
+
+                <div class="flex items-start gap-3 bg-white/70 p-4 rounded-2xl border border-gray-100 shadow-xs">
+                    <span class="bg-amber-600 text-white w-7 h-7 rounded-full flex items-center justify-center shrink-0 font-bold text-xs mt-0.5">২</span>
+                    <p>
+                        <strong class="text-gray-900">পরিচয় নিশ্চিতকরণ:</strong> স্টলে উপস্থিত হওয়ার সময় কুইজ খেলার সময় যে <span class="text-terracotta font-bold">পূর্ণ নাম</span> এবং <span class="text-terracotta font-bold">ফোন নম্বর</span> ব্যবহার করে অংশগ্রহণ করা হয়েছিল, তা সুনির্দিষ্টভাবে জানাতে হবে ও প্রমাণ দেখাতে হবে।
+                    </p>
+                </div>
+
+                <div class="flex items-start gap-3 bg-white/70 p-4 rounded-2xl border border-gray-100 shadow-xs">
+                    <span class="bg-amber-600 text-white w-7 h-7 rounded-full flex items-center justify-center shrink-0 font-bold text-xs mt-0.5">৩</span>
+                    <p>
+                        <strong class="text-gray-900">পণ্যের ব্যবহার:</strong> অর্জিত ডিসকাউন্ট সুবিধাটি শুধুমাত্র যেকোনো ১টি নির্দিষ্ট পণ্যের ক্ষেত্রে প্রযোজ্য হবে এবং এটি হস্তান্তরযোগ্য নয়।
+                    </p>
+                </div>
+
+            </div>
+
+            <!-- Back Button -->
+            <div class="mt-8 text-center">
+                <a href="index.html" class="inline-flex items-center justify-center gap-2 bg-gray-800 hover:bg-gray-900 text-white font-bold py-3 px-8 rounded-xl shadow-lg transition transform hover:-translate-y-1">
+                    <i class="fa-solid fa-arrow-left"></i> হোম পেজে ফিরে যান
+                </a>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- ======================= FOOTER ======================= -->
+    <footer class="bg-white/80 backdrop-blur-md border-t border-gray-200 mt-auto shadow-inner relative z-20 w-full py-6">
+        <div class="max-w-5xl mx-auto px-6 flex flex-col md:flex-row justify-between items-center md:items-end gap-6 relative">
+            
+            <!-- Left: Visit our page -->
+            <div class="w-full md:w-1/3 text-center md:text-left">
+                <a href="https://karukolacore.netlify.app/" class="inline-block border-2 border-gray-800 text-gray-800 font-bold py-2 px-6 rounded-full hover:bg-gray-800 hover:text-white transition duration-300">
+                    Visit Our Website
+                </a>
+            </div>
+
+            <!-- Center: Powered By -->
+            <div class="w-full md:w-1/3 text-center order-last md:order-none">
+                <p class="text-sm font-semibold text-gray-500">
+                    Powered by 
+                    <span class="font-bold text-transparent bg-clip-text bg-gradient-to-r from-terracotta to-orange-500 text-lg mx-1">
+                        Ahnaf
+                    </span> 
+                    <span class="text-black font-bold text-xs">
+                        (LOD, কারুকলা Core)
+                    </span>
+                </p>
+            </div>
+
+            <!-- Right: Contact Box -->
+            <div class="w-full md:w-1/3 flex justify-center md:justify-end">
+                <div class="border-2 border-dashed border-terracotta rounded-xl p-3 flex items-center gap-4 bg-orange-50/50">
+                    <span class="font-bold text-gray-700 uppercase text-sm"><i class="fa-solid fa-address-book"></i> contact</span>
+                    <a href="https://www.facebook.com/profile.php?id=61595356326973" class="bg-blue-600 text-white px-3 py-1 rounded hover:bg-blue-700 transition font-bold text-sm">Fb</a>
+                    <a href="https://www.instagram.com/karukolacore?xtok=MWlrOGN1Ym50anFqMw==" class="bg-pink-600 text-white px-3 py-1 rounded hover:bg-pink-700 transition font-bold text-sm">Insta</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+</body>
+</html>

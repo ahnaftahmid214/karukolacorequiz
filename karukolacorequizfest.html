@@ -1,0 +1,483 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>কারুকলা Core - Quiz</title>
+    <!-- Premium Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Atma:wght@600;700&family=Dancing+Script:wght@700&family=Hind+Siliguri:wght@400;600;700&display=swap" rel="stylesheet">
+    
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Hind Siliguri', sans-serif; }
+        body { background-color: #fdfaf6; color: #333; min-height: 100vh; display: flex; flex-direction: column; overflow-x: hidden; position: relative; }
+
+        /* Floating Animated Elements */
+        .floating-element { position: fixed; z-index: -1; opacity: 0.8; animation: float-anim 5s ease-in-out infinite; }
+        .el-scissors { top: 15%; left: 10%; font-size: 2.5rem; animation-delay: 0s; transform: rotate(-20deg); }
+        .el-thread { top: 60%; right: 10%; font-size: 3.5rem; animation-delay: 1s; }
+        .el-tulip { bottom: 25%; left: 5%; font-size: 4rem; animation-delay: 2s; transform: rotate(-15deg); }
+        .el-pot { top: 12%; right: 15%; font-size: 3rem; animation-delay: 1.5s; }
+        @keyframes float-anim { 0% { transform: translateY(0px); } 50% { transform: translateY(-15px); } 100% { transform: translateY(0px); } }
+
+        /* Header Area */
+        .quiz-header { text-align: center; margin-top: 40px; margin-bottom: 20px; }
+        .logo-bengali { font-family: 'Atma', cursive; font-size: 5rem; color: #ef473a; line-height: 0.8; text-shadow: 2px 2px 0px rgba(0,0,0,0.05); }
+        .logo-english { font-family: 'Dancing Script', cursive; font-size: 5.5rem; color: #1e5128; line-height: 0.7; margin-top: 10px; }
+
+        /* Container */
+        .container { max-width: 900px; width: 100%; margin: 0 auto; padding: 30px; flex: 1; z-index: 5; }
+
+        /* Form Area */
+        #user-form-area { background: #fff; padding: 40px; border-radius: 15px; box-shadow: 0 10px 25px rgba(0,0,0,0.05); border-top: 5px solid #ef473a; margin-top: 20px; width: 100%; }
+        .privacy-note { background: #fdf2e9; border-left: 4px solid #e67e22; padding: 20px; margin-bottom: 25px; font-size: 1rem; color: #d35400; border-radius: 4px; line-height: 1.5; }
+        .form-group { margin-bottom: 25px; width: 100%; }
+        .form-group label { display: block; font-weight: 700; margin-bottom: 10px; color: #2c3e50; font-size: 1.1rem; }
+        .form-group input { width: 100%; padding: 15px; border: 2px solid #ddd; border-radius: 8px; font-size: 1.1rem; transition: 0.3s; }
+        .form-group input:focus { border-color: #ef473a; outline: none; box-shadow: 0 0 8px rgba(239, 71, 58, 0.2); }
+        
+        .start-btn { width: 100%; background: #ef473a; color: white; border: none; padding: 18px; font-size: 1.4rem; font-weight: 700; border-radius: 8px; cursor: pointer; transition: 0.3s; box-shadow: 0 4px 10px rgba(239, 71, 58, 0.3); }
+        .start-btn:hover { background: #c0392b; transform: translateY(-2px); }
+
+        /* Quiz Area */
+        #quiz-area { display: none; margin-top: 20px; width: 100%; }
+        .timer-bar { background: #2c3e50; color: #f1c40f; padding: 18px; border-radius: 10px; text-align: center; font-size: 1.8rem; font-weight: 700; position: sticky; top: 15px; z-index: 100; box-shadow: 0 5px 15px rgba(0,0,0,0.2); margin-bottom: 40px; border: 2px solid #f1c40f; letter-spacing: 1px; }
+        .timer-warning { background: #e74c3c !important; color: white !important; border-color: #c0392b !important; animation: blink 1s infinite; }
+        @keyframes blink { 50% { opacity: 0.8; } }
+
+        .question-card { background: white; padding: 30px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); margin-bottom: 30px; border-left: 6px solid #1e5128; width: 100%; }
+        .question-text { font-size: 1.4rem; font-weight: 700; color: #2c3e50; margin-bottom: 20px; word-wrap: break-word; line-height: 1.4; }
+        .options-list { list-style: none; }
+        .options-list li { margin-bottom: 12px; }
+        .options-list label { display: flex; align-items: center; background: #f8f9fa; padding: 15px 20px; border-radius: 8px; cursor: pointer; border: 2px solid #e0e0e0; transition: 0.2s; font-weight: 600; font-size: 1.1rem; word-wrap: break-word; }
+        .options-list label:hover { border-color: #1e5128; background: #f0f7f2; }
+        .options-list input[type="radio"] { margin-right: 15px; transform: scale(1.3); flex-shrink: 0; }
+
+        .correct-answer { border-color: #27ae60 !important; background-color: #eafaf1 !important; color: #27ae60; }
+        .wrong-answer { border-color: #e74c3c !important; background-color: #fdedec !important; color: #e74c3c; }
+        .disabled-option { pointer-events: none; opacity: 0.7; }
+
+        /* ---------------- RESULT AREA ---------------- */
+        #result-area { display: none; background: white; padding: 30px 20px; border-radius: 12px; text-align: center; box-shadow: 0 8px 25px rgba(0,0,0,0.08); border-top: 5px solid #27ae60; margin-top: 15px; width: 100%; max-width: 600px; margin-left: auto; margin-right: auto; }
+        .result-title { font-family: 'Atma', cursive; font-size: 2.2rem; color: #27ae60; margin-bottom: 5px; }
+        .result-subtitle { font-size: 1rem; color: #555; }
+        .score-display { font-size: 3.5rem; font-weight: 700; color: #2c3e50; margin: 15px 0; }
+        
+        .stats-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 20px; }
+        .stat-box { background: #f8f9fa; padding: 10px; border-radius: 8px; border: 1px solid #ddd; }
+        .stat-num { font-size: 1.6rem; font-weight: 700; margin-bottom: 2px; }
+        .stat-text { font-size: 0.85rem; color: #7f8c8d; font-weight: 600; }
+        .s-correct { color: #27ae60; } .s-wrong { color: #e74c3c; } .s-skip { color: #f39c12; }
+
+        .time-taken-text { color: #7f8c8d; font-weight: bold; font-size: 1rem; margin-bottom: 15px; }
+
+        .btn-group-bottom { display: flex; flex-direction: row; justify-content: center; gap: 15px; margin-top: 25px; }
+        .leaderboard-btn, .home-btn { padding: 10px 20px; border: none; border-radius: 20px; font-size: 1rem; font-weight: 700; cursor: pointer; text-decoration: none; display: inline-block; transition: 0.3s; text-align: center; }
+        .leaderboard-btn { background: #f39c12; color: white; box-shadow: 0 4px 10px rgba(243, 156, 18, 0.3); }
+        .leaderboard-btn:hover { background: #d35400; transform: scale(1.05); }
+        .home-btn { background: #34495e; color: white; }
+        .home-btn:hover { background: #2c3e50; transform: scale(1.05); }
+
+        #review-section { margin-top: 30px; text-align: left; border-top: 2px dashed #eee; padding-top: 20px; width: 100%; max-width: 100%; }
+        .review-title { font-size: 1.4rem; color: #2c3e50; margin-bottom: 20px; text-align: center; font-weight: bold; border-bottom: 2px solid #ef473a; display: inline-block; padding-bottom: 5px; }
+
+        /* PERFECTED FOOTER (PC Layout Default) */
+        .wireframe-footer { width: 100%; max-width: 1100px; margin: 60px auto 30px auto; border-top: 1px solid #ddd; padding-top: 25px; display: flex; justify-content: space-between; align-items: center; padding-left: 30px; padding-right: 30px; }
+        .footer-left { flex: 1; display: flex; justify-content: flex-start; }
+        .visit-page-btn { border: 2px solid #34495e; padding: 8px 25px; border-radius: 25px; text-decoration: none; color: #34495e; font-weight: 700; transition: 0.3s; font-size: 1.1rem; }
+        .visit-page-btn:hover { background: #34495e; color: #fff; }
+        
+        .footer-center { flex: 1.5; display: flex; justify-content: center; text-align: center; }
+        .powered-by { font-size: 1rem; color: #555; font-weight: 600; line-height: 1.4; }
+        .author-name { color: #f77d04; font-weight: 800; font-size: 1.2rem; } 
+        .powered-sub { font-size: 0.8rem; color: #000; font-weight: bold; } 
+
+        .footer-right { flex: 1; display: flex; justify-content: flex-end; align-items: center; border: 2px dashed #f39c12; padding: 10px 20px; border-radius: 12px; background: rgba(243, 156, 18, 0.05); max-width: max-content; }
+        .footer-right span { font-weight: 700; color: #d35400; margin-right: 15px; font-size: 1.1rem; }
+        
+        .social-btn { padding: 6px 15px; border-radius: 6px; cursor: pointer; font-weight: bold; border: none; margin-left: 8px; color: white; transition: 0.3s; font-size: 1rem; }
+        .social-btn.fb { background: #1877f2; }
+        .social-btn.fb:hover { background: #145dbf; }
+        .social-btn.insta { background: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%); }
+        .social-btn.insta:hover { opacity: 0.8; }
+
+        /* MEDIA QUERIES FOR MOBILE */
+        @media(max-width: 768px) { 
+            .quiz-header { margin-top: 20px; }
+            .logo-bengali { font-size: 3.5rem; }
+            .logo-english { font-size: 4rem; margin-top: 5px; }
+            .container { padding: 15px; }
+            #user-form-area { padding: 25px 20px; }
+            .form-group label { font-size: 1rem; }
+            .form-group input { padding: 12px; font-size: 1rem; }
+            .start-btn { padding: 15px; font-size: 1.2rem; }
+            .timer-bar { font-size: 1.4rem; padding: 12px; top: 10px; margin-bottom: 25px; }
+            .question-card { padding: 20px 15px; border-left-width: 4px; margin-bottom: 20px; }
+            .question-text { font-size: 1.2rem; margin-bottom: 15px; }
+            .options-list label { padding: 12px 15px; font-size: 1rem; }
+            .options-list input[type="radio"] { transform: scale(1.1); margin-right: 10px; }
+
+            #result-area { padding: 20px 15px; }
+            .result-title { font-size: 1.8rem; }
+            .score-display { font-size: 2.8rem; margin: 10px 0; }
+            .stats-grid { gap: 8px; margin-bottom: 15px; }
+            .stat-box { padding: 8px; flex-direction: column; }
+            .stat-num { font-size: 1.4rem; }
+            .btn-group-bottom { flex-direction: column; gap: 10px; }
+            .leaderboard-btn, .home-btn { width: 100%; padding: 12px; font-size: 1rem; }
+            .review-title { font-size: 1.2rem; margin-bottom: 15px; }
+
+            .wireframe-footer { flex-direction: column; gap: 25px; align-items: center; text-align: center; padding: 25px 15px; margin-top: 30px; } 
+            .footer-left, .footer-center, .footer-right { justify-content: center; width: 100%; flex: auto; }
+            .footer-right { max-width: 100%; justify-content: center; padding: 15px; }
+            .mobile-break { display: block !important; } 
+            .floating-element { display: none; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="floating-element el-scissors">✂️</div>
+    <div class="floating-element el-thread">🧶</div>
+    <div class="floating-element el-tulip">🌷</div>
+    <div class="floating-element el-pot">🏺</div>
+
+    <div class="quiz-header">
+        <h1 class="logo-bengali">কারুকলা</h1>
+        <h1 class="logo-english">Core</h1>
+    </div>
+
+    <div class="container">
+        
+        <div id="user-form-area">
+            <div class="privacy-note">
+                <strong>📌 বিজ্ঞপ্তি:</strong> পুরস্কার প্রদানের জন্য আপনার সঠিক নাম ও মোবাইল নম্বর প্রয়োজন। এই তথ্যগুলো সম্পূর্ণ গোপন থাকবে এবং তৃতীয় পক্ষের সাথে শেয়ার করা হবে না। একটি ডিভাইস থেকে শুধুমাত্র একবার কুইজ দেওয়া যাবে।
+            </div>
+            
+            <div class="form-group">
+                <label>আপনার পুরো নাম লিখুন (শুধুমাত্র ইংরেজি অক্ষর) *</label>
+                <input type="text" id="userFullName" placeholder="যেমন: Ahnaf Tahmid" oninput="this.value = this.value.replace(/[^a-zA-Z\s]/g, '')" required>
+            </div>
+            <div class="form-group">
+                <label>আপনার মোবাইল নম্বর দিন (১১ ডিজিট) *</label>
+                <input type="tel" id="userPhone" placeholder="যেমন: 017XXXXXXXX" maxlength="11" oninput="this.value = this.value.replace(/[^0-9]/g, '')" required>
+            </div>
+            
+            <button class="start-btn" onclick="startQuiz()">কুইজ শুরু করুন ▶</button>
+        </div>
+
+        <div id="quiz-area">
+            <div class="timer-bar" id="timer-display">⏱️ সময় বাকি: ০৫:০০</div>
+            <form id="quiz-form">
+                <div id="questions-container"></div>
+                <button type="button" class="start-btn" style="background:#27ae60; margin-top:20px; margin-bottom: 40px;" onclick="submitQuiz()">✅ কুইজ সাবমিট করুন</button>
+            </form>
+        </div>
+
+        <div id="result-area">
+            <h2 class="result-title">ধন্যবাদ, <span id="r-name"></span>!</h2>
+            <p class="result-subtitle">আপনার কুইজ সফলভাবে সম্পন্ন হয়েছে।</p>
+            
+            <div class="score-display"><span id="r-score">0</span> / 20</div>
+            
+            <div class="stats-grid">
+                <div class="stat-box"><div class="stat-text">সঠিক উত্তর</div><div class="stat-num s-correct" id="r-correct">0</div></div>
+                <div class="stat-box"><div class="stat-text">ভুল উত্তর</div><div class="stat-num s-wrong" id="r-wrong">0</div></div>
+                <div class="stat-box"><div class="stat-text">স্কিপ করেছেন</div><div class="stat-num s-skip" id="r-skip">0</div></div>
+            </div>
+            
+            <p class="time-taken-text">⏱️ সময় লেগেছে: <span id="r-time"></span></p>
+
+            <div class="btn-group-bottom">
+                <a href="karukolacorequizranking.html" class="leaderboard-btn">🏆 Leaderboard দেখুন</a>
+                <a href="index.html" class="home-btn">🏠 হোম পেজে ফিরে যান</a>
+            </div>
+
+            <div id="review-section">
+                <h3 class="review-title">আপনার উত্তরের পর্যালোচনা</h3>
+                <div id="review-questions-container"></div>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="wireframe-footer">
+        <div class="footer-left">
+            <a href="https://karukolacore.netlify.app/" class="visit-page-btn">Visit Our Website</a>
+        </div>
+        
+        <div class="footer-center">
+          <!-- Powered By Footer -->
+<!-- Pure CSS Version (Tailwind ছাড়া হুবহু একই লুক) -->
+<div style="width: 100%; text-align: center; margin: 20px 0; display: flex; justify-content: center; align-items: center;">
+    <p style="font-size: 14px; font-weight: 600; color: #6b7280; margin: 0;">
+        Powered by 
+        <span style="font-size: 18px; font-weight: 800; margin: 0 4px; background: linear-gradient(to right, #d97706, #f97316); -webkit-background-clip: text; -webkit-text-fill-color: transparent; display: inline-block;">
+            Ahnaf
+        </span> 
+        <span style="font-size: 12px; font-weight: 700; color: #000000;">
+            (LOD, কারুকলা Core)
+        </span>
+    </p>
+</div>
+        </div>
+        
+        <div class="footer-right">
+            <span>Contact</span>
+            <button class="social-btn fb"; onclick="window.location.href='https://www.facebook.com/profile.php?id=61595356326973'">f</button>
+            <button class="social-btn insta"; onclick="window.location.href='https://www.instagram.com/karukolacore?xtok=MWlrOGN1Ym50anFqMw=='">In</button>
+        </div>
+    </div>
+
+<!-- Firebase CDN (No Module, 100% works on local file) -->
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
+
+<script>
+    const firebaseConfig = {
+        apiKey: "AIzaSyCSS_vXmOEiyLmuddp1t4TY16Kd66gUleE",
+        authDomain: "karukolacore.firebaseapp.com",
+        projectId: "karukolacore",
+        storageBucket: "karukolacore.firebasestorage.app",
+        messagingSenderId: "283565312879",
+        appId: "1:283565312879:web:2ea367b7522382e119b69a",
+        measurementId: "G-FZETWQE3D4"
+    };
+
+    // Firebase Start
+    if (!firebase.apps.length) {
+        firebase.initializeApp(firebaseConfig);
+    }
+    const db = firebase.firestore();
+
+    // Data pathanor function
+    window.saveQuizToFirebase = function(data) {
+        db.collection("scores").add({
+            fullName: data.fullName || "Anonymous",
+            phone: data.phone || "N/A",
+            score: Number(data.score) || 0,
+            correct: Number(data.correct) || 0,
+            wrong: Number(data.wrong) || 0,
+            skipped: Number(data.skipped) || 0,
+            timeTaken: Number(data.timeTaken) || 0,
+            timestamp: firebase.firestore.FieldValue.serverTimestamp()
+        })
+        .then(() => {
+            alert("Quiz shofolbhabe joma hoyeche!");
+            console.log("Data Firebase-e save hoyeche!");
+        })
+        .catch((error) => {
+            alert("Firebase Error: " + error.message);
+            console.error("Error:", error);
+        });
+    };
+</script>
+
+    <!-- JavaScript -->
+    <script>
+        const TOTAL_TIME = 200; // 3 min 20 second
+        let timerInterval;
+        let timeLeft = TOTAL_TIME;
+        
+        const questions = [
+            { q: "১. হস্তশিল্প বলতে কী বোঝায়?", options: ["হাতে তৈরি শিল্প", "মেশিনে তৈরি", "কম্পিউটার ডিজাইন", "কোনোটিই নয়"], ans: 0 },
+            { q: "২. বাংলাদেশের বিখ্যাত হস্তশিল্প কোনটি?", options: ["নকশী কাঁথা", "রোবট", "স্মার্টফোন", "গাড়ি"], ans: 0 },
+            { q: "৩. কারুকলা Core কোন মেলার অংশ?", options: ["বই মেলা", "CPSCS হস্তশিল্প মেলা", "বাণিজ্য মেলা", "বিজ্ঞান মেলা"], ans: 1 },
+            { q: "৪. মাটির তৈরি জিনিসপত্রকে কী বলে?", options: ["বস্ত্রশিল্প", "মৃৎশিল্প", "দারুশিল্প", "ধাতুশিল্প"], ans: 1 },
+            { q: "৫. নকশী কাঁথা কোন জেলার বেশি বিখ্যাত?", options: ["ঢাকা", "জামালপুর", "ময়মনসিংহ", "খুলনা"], ans: 1 },
+            { q: "৬. কোনটি বাঁশ দিয়ে তৈরি হয় না?", options: ["কুলা", "ডালা", "মাটির হাঁড়ি", "চালুনি"], ans: 2 },
+            { q: "৭. জামদানি শাড়ি কোথায় তৈরি হয়?", options: ["রাজশাহী", "নারায়ণগঞ্জ", "সিলেট", "চট্টগ্রাম"], ans: 1 },
+            { q: "৮. শীতল পাটি কী দিয়ে তৈরি হয়?", options: ["বেত", "মূর্তা গাছ", "বাঁশ", "কাঠ"], ans: 1 },
+            { q: "৯. মৃৎশিল্পের প্রধান উপকরণ কী?", options: ["বালি", "কাদা মাটি", "সিমেন্ট", "পাথর"], ans: 1 },
+            { q: "১০. বাংলাদেশের তাঁত শিল্পের জন্য বিখ্যাত স্থান কোনটি?", options: ["টাঙ্গাইল", "বরিশাল", "রংপুর", "দিনাজপুর"], ans: 0 },
+            { q: "১১. কোনটি হস্তশিল্পের অন্তর্ভুক্ত?", options: ["সফটওয়্যার", "পাটের ব্যাগ", "ফ্রিজ", "ল্যাপটপ"], ans: 1 },
+            { q: "১২. টেরাকোটা কী?", options: ["পোড়ামাটির শিল্প", "কাঁচের শিল্প", "কাপড়ের শিল্প", "লোহার শিল্প"], ans: 0 },
+            { q: "১৩. রেশম শিল্পের জন্য কোন জেলা বিখ্যাত?", options: ["রাজশাহী", "বগুড়া", "কুমিল্লা", "ফেনী"], ans: 0 },
+            { q: "১৪. পাটের তৈরি কার্পেটকে কী বলে?", options: ["মাদুর", "শতরঞ্জি", "মখমল", "কোনোটিই নয়"], ans: 1 },
+            { q: "১৫. কাঁসা ও পিতলের শিল্পের জন্য বিখ্যাত এলাকা কোনটি?", options: ["ধামরাই", "সাভার", "গাজীপুর", "টঙ্গী"], ans: 0 },
+            { q: "১৬. সোনারগাঁও কীসের জন্য বিখ্যাত?", options: ["লোকশিল্প জাদুঘর", "চিড়িয়াখানা", "পার্ক", "সিনেমা হল"], ans: 0 },
+            { q: "১৭. ডোকরা শিল্প কোন ধাতুর তৈরি?", options: ["সোনা", "রুপা", "পিতল ও ব্রোঞ্জ", "লোহা"], ans: 2 },
+            { q: "১৮. হাতের কাজের সূচিশিল্পকে কী বলা হয়?", options: ["এমব্রয়ডারি", "পেইন্টিং", "স্কেচ", "অরিগ্যামি"], ans: 0 },
+            { q: "১৯. শতরঞ্জি কোন জেলার বিখ্যাত হস্তশিল্প?", options: ["রংপুর", "ঢাকা", "খুলনা", "সিলেট"], ans: 0 },
+            { q: "২০. হস্তশিল্পের মাধ্যমে কী প্রকাশ পায়?", options: ["প্রযুক্তি", "ঐতিহ্য ও সংস্কৃতি", "বিজ্ঞান", "গণিত"], ans: 1 }
+        ];
+
+        window.onload = function() {
+            const savedData = localStorage.getItem("karukolaQuizCompleted");
+            if (savedData) {
+                showResultScreen(JSON.parse(savedData));
+            } else {
+                renderQuestions();
+            }
+        }
+
+        function renderQuestions() {
+            const qContainer = document.getElementById('questions-container');
+            qContainer.innerHTML = '';
+            questions.forEach((item, index) => {
+                let opts = item.options.map((opt, i) => `
+                    <li>
+                        <label>
+                            <input type="radio" name="q${index}" value="${i}"> ${opt}
+                        </label>
+                    </li>
+                `).join('');
+                qContainer.innerHTML += `<div class="question-card"><div class="question-text">${item.q}</div><ul class="options-list">${opts}</ul></div>`;
+            });
+        }
+
+        function startQuiz() {
+            const deadline = new Date("2026-10-30T23:59:59+06:00").getTime();
+    if (Date.now() > deadline) {
+        alert("দুঃখিত! কুইজ খেলার নির্ধারিত সময় (৩০শে অক্টোবর রাত ১১:৫৯) শেষ হয়ে গেছে।");
+        return; 
+    }
+            const name = document.getElementById('userFullName').value.trim();
+            const phone = document.getElementById('userPhone').value.trim();
+            
+            if(!name) { 
+                alert("অনুগ্রহ করে আপনার নাম দিন।"); 
+                return; 
+            }
+            if(phone.length !== 11) { 
+                alert("অনুগ্রহ করে সঠিক ১১ ডিজিটের মোবাইল নম্বর দিন।"); 
+                return; 
+            }
+
+            sessionStorage.setItem("tempUserName", name);
+            sessionStorage.setItem("tempUserPhone", phone);
+
+            document.getElementById('user-form-area').style.display = 'none';
+            document.getElementById('quiz-area').style.display = 'block';
+            window.scrollTo(0, 0);
+
+            timerInterval = setInterval(updateTimer, 1000);
+        }
+
+        function updateTimer() {
+            timeLeft--;
+            const timerDisplay = document.getElementById('timer-display');
+            let m = Math.floor(timeLeft / 60);
+            let s = timeLeft % 60;
+            timerDisplay.innerText = `⏱️ সময় বাকি: ${m < 10 ? '0'+m : m}:${s < 10 ? '0'+s : s}`;
+
+            if(timeLeft <= 60) timerDisplay.classList.add('timer-warning');
+            if(timeLeft <= 0) { clearInterval(timerInterval); submitQuiz(true); }
+        }
+
+        function submitQuiz(isAuto = false) {
+            if(!isAuto && !confirm("আপনি কি নিশ্চিত যে কুইজ সাবমিট করতে চান?")) return;
+            
+            clearInterval(timerInterval);
+            let timeTaken = TOTAL_TIME - timeLeft;
+            let score = 0, correct = 0, wrong = 0, skipped = 0;
+            let userAnswers = [];
+
+            questions.forEach((item, index) => {
+                const selected = document.querySelector(`input[name="q${index}"]:checked`);
+                let val = selected ? parseInt(selected.value) : null;
+                userAnswers.push(val);
+                if (val === item.ans) { score++; correct++; } 
+                else if (val === null) skipped++; 
+                else wrong++;
+            });
+
+            const resultData = {
+                fullName: sessionStorage.getItem("tempUserName"),
+                phone: sessionStorage.getItem("tempUserPhone"),
+                score: score, 
+                correct: correct, 
+                wrong: wrong, 
+                skipped: skipped,
+                timeTaken: timeTaken, 
+                userAnswers: userAnswers,
+                timestamp: new Date().toISOString()
+            };
+
+            // 1. Save locally to prevent retaking on this phone
+            localStorage.setItem("karukolaQuizCompleted", JSON.stringify(resultData));
+
+            // 2. Save directly to Firebase Database (Cloud Firestore)
+            if (window.saveQuizToFirebase) {
+                window.saveQuizToFirebase(resultData);
+            }
+            // 3. Show Result Screen
+            showResultScreen(resultData);
+        }
+
+        function showResultScreen(data) {
+            document.getElementById('user-form-area').style.display = 'none';
+            document.getElementById('quiz-area').style.display = 'none';
+            document.getElementById('result-area').style.display = 'block';
+            window.scrollTo(0, 0);
+
+            document.getElementById('r-name').innerText = data.fullName;
+            document.getElementById('r-score').innerText = data.score;
+            document.getElementById('r-correct').innerText = data.correct;
+            document.getElementById('r-wrong').innerText = data.wrong;
+            document.getElementById('r-skip').innerText = data.skipped;
+
+            let m = Math.floor(data.timeTaken / 60);
+            let s = data.timeTaken % 60;
+            document.getElementById('r-time').innerText = `${m} মিনিট ${s} সেকেন্ড`;
+
+            renderReviewSection(data.userAnswers);
+        }
+
+        function renderReviewSection(userAnswers) {
+            const reviewContainer = document.getElementById('review-questions-container');
+            reviewContainer.innerHTML = '';
+            questions.forEach((item, index) => {
+                let userChoice = userAnswers[index];
+                let optsHtml = item.options.map((opt, i) => {
+                    let labelClass = "disabled-option";
+                    let checked = (i === userChoice) ? "checked" : "";
+                    
+                    // Sothik option green border, vul option red border
+                    if (i === item.ans) labelClass += " correct-answer";
+                    else if (i === userChoice && userChoice !== item.ans) labelClass += " wrong-answer";
+                    
+                    return `<li><label class="${labelClass}"><input type="radio" disabled ${checked}> ${opt}</label></li>`;
+                }).join('');
+                reviewContainer.innerHTML += `<div class="question-card" style="margin-top: 15px;"><div class="question-text">${item.q}</div><ul class="options-list">${optsHtml}</ul></div>`;
+            });
+        }
+    </script>
+    <!-- Firebase SDK & Submit Logic -->
+<script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+    import { getFirestore, collection, addDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+
+    const firebaseConfig = {
+        apiKey: "AIzaSyCSS_vXmOEiyLmuddp1t4TY16Kd66gUleE",
+        authDomain: "karukolacore.firebaseapp.com",
+        projectId: "karukolacore",
+        storageBucket: "karukolacore.firebasestorage.app",
+        messagingSenderId: "283565312879",
+        appId: "1:283565312879:web:2ea367b7522382e119b69a",
+        measurementId: "G-FZETWQE3D4"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
+
+    // Global save function
+    window.saveQuizToFirebase = async function(data) {
+        try {
+            await addDoc(collection(db, "scores"), {
+                fullName: data.fullName,
+                phone: data.phone,
+                score: data.score,
+                correct: data.correct,
+                wrong: data.wrong,
+                skipped: data.skipped,
+                timeTaken: data.timeTaken,
+                timestamp: serverTimestamp()
+            });
+            console.log("Firebase-e data save hoyeche!");
+        } catch (err) {
+            console.error("Firebase error:", err);
+        }
+    };
+</script>
+</body>
+</html>
